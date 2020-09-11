@@ -5,9 +5,7 @@ public class Point2d extends AbstractPoint {
     private final Integer Y = 1;
 
     // TODO creer un point en 2d avec 2 donnees
-    public Point2d(Double x, Double y) {
-        super();
-    }
+    public Point2d(Double x, Double y) { super(new Double[]{x, y}); }
 
     // TODO creer un point a partir d'un vecteur de donnees
     public Point2d(Double[] vector) {
@@ -20,29 +18,32 @@ public class Point2d extends AbstractPoint {
     // TODO appliquer la transalation sur la classe courrante et retourner la reference
     @Override
     public Point2d translate(Double[] translateVector) {
-        return null;
+        return new Point2d(this.X() + translateVector[X], this.Y + translateVector[Y]);
     }
 
     // TODO appliquer la transalation sur la classe courrante et retourner la reference
     public Point2d translate(Point2d translateVector) {
-        return null;
+        return new Point2d(this.X() + translateVector.X(), this.Y() + translateVector.Y());
     }
 
     // TODO appliquer la rotation sur la classe courrante et retourner la reference
     @Override
     public Point2d rotate(Double[][] rotationMatrix) {
-        return null;
+
     }
 
     // TODO appliquer la rotation sur la classe courrante et retourner la reference
     public Point2d rotate(Double angle) {
-        return null;
+        double cot = Math.cos(angle);
+        double sit = Math.sin(angle);
+
+        return new Point2d(this.X() * cot - this.Y() * sit, this.X() * sit + this.Y() * cot);
     }
 
     // TODO appliquer la division sur la classe courrante et retourner la reference
     @Override
     public Point2d divide(Double divider) {
-        return null;
+        
     }
 
     // TODO appliquer la multiplication sur la classe courrante et retourner la reference
