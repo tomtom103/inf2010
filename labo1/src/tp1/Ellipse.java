@@ -1,6 +1,6 @@
 package tp1;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class Ellipse extends BaseShape {
     // TODO creer une ellipse avec une largeur et une longueur.
@@ -14,7 +14,7 @@ public class Ellipse extends BaseShape {
     }
 
     // TODO initialiser le parent.
-    private Ellipse(Set<Point2d> coords) {
+    private Ellipse(Collection<Point2d> coords) {
         // ...
     }
 

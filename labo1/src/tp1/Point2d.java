@@ -18,49 +18,58 @@ public class Point2d extends AbstractPoint {
     // TODO appliquer la transalation sur la classe courrante et retourner la reference
     @Override
     public Point2d translate(Double[] translateVector) {
-        return new Point2d(this.X() + translateVector[X], this.Y + translateVector[Y]);
+        PointOperator.translate(vector, translateVector);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la transalation sur la classe courrante et retourner la reference
     public Point2d translate(Point2d translateVector) {
-        return new Point2d(this.X() + translateVector.X(), this.Y() + translateVector.Y());
+        PointOperator.translate(vector, translateVector.vector);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la rotation sur la classe courrante et retourner la reference
     @Override
     public Point2d rotate(Double[][] rotationMatrix) {
-
+        PointOperator.rotate(vector, rotationMatrix);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la rotation sur la classe courrante et retourner la reference
     public Point2d rotate(Double angle) {
-        double cot = Math.cos(angle);
-        double sit = Math.sin(angle);
-
-        return new Point2d(this.X() * cot - this.Y() * sit, this.X() * sit + this.Y() * cot);
+        Double[][] rotationMatrix = new Double[][]
+                {
+                    {Math.cos(angle), -Math.sin(angle)},
+                    {Math.sin(angle), Math.cos(angle)}
+                };
+        PointOperator.rotate(vector, rotationMatrix);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la division sur la classe courrante et retourner la reference
     @Override
     public Point2d divide(Double divider) {
-        
+        PointOperator.divide(vector, divider);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la multiplication sur la classe courrante et retourner la reference
     @Override
     public Point2d multiply(Double multiplier) {
-        return null;
+        PointOperator.multiply(vector, multiplier);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO appliquer la addition sur la classe courrante et retourner la reference
     @Override
     public Point2d add(Double adder) {
-        return null;
+        PointOperator.add(vector, adder);
+        return new Point2d(this.X(), this.Y());
     }
 
     // TODO creer un nouveau point.
     @Override
     public Point2d clone() {
-        return this;
+        return new Point2d(vector);
     }
 }
