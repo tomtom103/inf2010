@@ -13,7 +13,7 @@ public final class PointOperator {
 
     // TODO appliquer la translation sur le vecteur d'entree.
     public static void rotate(Double[] vector, Double[][] rotationMatrix) {
-        Double[] oldVector = new Double[]{ vector[0], vector[1]};
+        Double[] oldVector = vector.clone();
         for (int i = 0; i < rotationMatrix.length; i++) {
             double sum = 0;
             for (int j = 0; j < rotationMatrix[i].length; j++) {
@@ -46,32 +46,32 @@ public final class PointOperator {
 
     // TODO retourne une nouvelle coordonnee avec la plus grande valeur en X et la plus grande en Y.
     public static Point2d getMaxCoord(Collection<Point2d> coords) {
-        Point2d max = Collections.max(coords, new Comparator<Point2d>() {
-            public int compare(Point2d o1, Point2d o2) {
-                int result = Double.compare(o1.X(), o2.X());
-                if( result == 0) {
-                    // X1 et X2 sont egaux, on verifie Y
-                    result = Double.compare(o1.Y(), o2.Y());
-                }
-                return result;
+        double maxX = 0.0;
+        double maxY = 0.0;
+        for(Point2d item : coords) {
+            if(item.X() > maxX) {
+                maxX = item.X();
             }
-        });
-        return max;
+            if(item.Y() > maxY) {
+                maxY = item.Y();
+            }
+        }
+        return new Point2d(maxX, maxY);
     }
 
     // TODO retourne une nouvelle coordonnee avec la plus petite valeur en X et la plus petite en Y.
     public static Point2d getMinCoord(Collection<Point2d> coords) {
-        Point2d min = Collections.min(coords, new Comparator<Point2d>() {
-            public int compare(Point2d o1, Point2d o2) {
-                int result = Double.compare(o1.X(), o2.X());
-                if( result == 0) {
-                    // X1 et X2 sont egaux, on verifie Y
-                    result = Double.compare(o1.Y(), o2.Y());
-                }
-                return result;
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        for(Point2d item : coords) {
+            if(item.X() < minX) {
+                minX = item.X();
             }
-        });
-        return min;
+            if(item.Y() < minY) {
+                minY = item.Y();
+            }
+        }
+        return new Point2d(minX, minY);
     }
 
 }

@@ -44,7 +44,7 @@ public class BaseShape implements Cloneable {
 
     // TODO retourner les coordonnees de la liste.
     public Collection<Point2d> getCoords() {
-        return this.coords;
+        return new ArrayList<>(this.coords);
     }
 
     // TODO retourner une nouvelle liste ou tous les points sont des copy
@@ -57,61 +57,50 @@ public class BaseShape implements Cloneable {
     // TODO appliquer la translation sur la forme.
     public BaseShape translate(Point2d point) {
         for(Point2d item : this.coords) {
-            PointOperator.translate(item.vector, point.vector);
+            item.translate(point);
         }
         return this;
     }
 
     // TODO appliquer la rotation sur la forme.
     public BaseShape rotate(Double angle) {
-        Double[][] rotationMatrix = new Double[][]
-                {
-                        {Math.cos(angle), -Math.sin(angle)},
-                        {Math.sin(angle), Math.cos(angle)}
-                };
         for(Point2d item : this.coords) {
-            PointOperator.rotate(item.vector, rotationMatrix);
+            item.rotate(angle);
         }
         return this;
     }
 
     // TODO donner la plus grande valeur en X
     public Double getMaxX() {
-        Point2d maxPoint = PointOperator.getMaxCoord(this.coords);
-        return maxPoint.X();
+        return PointOperator.getMaxCoord(this.coords).X();
     }
 
     // TODO donner la plus grande valeur en Y
     public Double getMaxY() {
-        Point2d maxPoint = PointOperator.getMaxCoord(this.coords);
-        return maxPoint.Y();
+        return PointOperator.getMaxCoord(this.coords).Y();
     }
 
     // TODO donner les plus grandes valeurs en X et Y
     public Point2d getMaxCoord() {
-        Point2d maxPoint = PointOperator.getMaxCoord(this.coords);
-        return maxPoint;
+        return PointOperator.getMaxCoord(this.coords);
     }
 
     // TODO donner la plus petite valeur en X
     public Double getMinX() {
-        Point2d minPoint = PointOperator.getMinCoord(this.coords);
-        return minPoint.X();
+        return PointOperator.getMinCoord(this.coords).X();
     }
     // TODO donner la plus petite valeur en Y
     public Double getMinY() {
-        Point2d minPoint = PointOperator.getMinCoord(this.coords);
-        return minPoint.Y();
+        return PointOperator.getMinCoord(this.coords).Y();
     }
 
     // TODO donner les plus petites valeurs en X et Y
     public Point2d getMinCoord() {
-        Point2d minPoint = PointOperator.getMinCoord(this.coords);
-        return minPoint;
+        return PointOperator.getMinCoord(this.coords);
     }
 
     // TODO retourner une nouvelle forme.
     public BaseShape clone() {
-        return new BaseShape();
+        return new BaseShape(this.coords);
     }
 }
