@@ -18,7 +18,6 @@ public class Rectangle extends BaseShape {
                 super.add(new Point2d(new Double[]{-i, -j}));
             }
         }
-
     }
 
     // TODO creer un rectangle avec les dimensions contenu dans un Point.

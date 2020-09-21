@@ -27,7 +27,7 @@ public class BaseShape implements Cloneable {
     }
     public BaseShape addAll(Collection<Point2d> coords) {
         this.coords.addAll(coords);
-        return null;
+        return this;
     }
     public BaseShape remove(Point2d coord) {
         this.coords.remove(coord);
@@ -49,7 +49,7 @@ public class BaseShape implements Cloneable {
 
     // TODO retourner une nouvelle liste ou tous les points sont des copy
     public Collection<Point2d> getCoordsDeepCopy() {
-        ArrayList<Point2d> clone = new ArrayList<Point2d>(this.coords.size());
+        ArrayList<Point2d> clone = new ArrayList<>();
         for (Point2d item : this.coords) clone.add(item.clone());
         return clone;
     }

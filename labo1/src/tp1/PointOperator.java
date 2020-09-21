@@ -44,6 +44,7 @@ public final class PointOperator {
         }
     }
 
+
     // TODO retourne une nouvelle coordonnee avec la plus grande valeur en X et la plus grande en Y.
     public static Point2d getMaxCoord(Collection<Point2d> coords) {
         double maxX = 0.0;

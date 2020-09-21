@@ -53,7 +53,7 @@ public final class LetterFactory {
     // TODO
     public static BaseShape create_i() {
         BaseShape mainBody = new Circle(stripeThickness);
-        BaseShape bottomBar = new Rectangle(halfStripeThickness, maxHeight / 1.5).translate(new Point2d(0.0, 120.0));
+        BaseShape bottomBar = new Rectangle(halfStripeThickness, maxHeight / 1.3).translate(new Point2d(0.0, 110.0));
         mainBody.add(bottomBar);
         return mainBody;
     }
