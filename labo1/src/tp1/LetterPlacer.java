@@ -47,6 +47,9 @@ public class LetterPlacer {
             case 'A': return LetterFactory.create_A();
             case 'l': return LetterFactory.create_l();
             case 'r': return LetterFactory.create_r();
+            case 'Z': return LetterFactory.create_vertical();
+            case 'Y': return LetterFactory.create_vertical_small();
+            case 'X': return LetterFactory.create_horizontal();
             default: throw new Exception("Cette lettre n'est pas valide: " + String.valueOf(letter));
         }
     }

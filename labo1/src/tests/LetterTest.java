@@ -20,7 +20,7 @@ public class LetterTest {
     void all() throws Exception {
         Tesseract tesseract = new Tesseract();
         LetterPlacer letterPlacer = new LetterPlacer();
-        letterPlacer.placeNext('C');
+        /*letterPlacer.placeNext('C');
         letterPlacer.placeNext('a');
         letterPlacer.placeNextln('V');
         letterPlacer.placeNext('a');
@@ -32,7 +32,9 @@ public class LetterTest {
         letterPlacer.placeNext('l');
         letterPlacer.placeNext('l');
         letterPlacer.placeNext('e');
-        letterPlacer.placeNext('r');
+        letterPlacer.placeNext('r');*/
+        letterPlacer.placeNext('Z');
+        letterPlacer.placeNext('Y');
         letterPlacer.saveImage("all", true);
         File tmpFile = new File("all.jpg");
         String output = tesseract.doOCR(tmpFile)

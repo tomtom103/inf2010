@@ -120,4 +120,24 @@ public final class LetterFactory {
         mainBody.add(addLeft);
         return mainBody;
     }
+
+    public static BaseShape create_vertical() {
+        BaseShape rectangle = new Rectangle(halfMaxWidth, maxHeight);
+
+        return rectangle;
+    }
+
+    public static BaseShape create_vertical_small() {
+        BaseShape bigRectangle = new Rectangle(halfMaxWidth, maxHeight).translate(new Point2d(100.0, 0.0));
+        BaseShape small = new Rectangle(halfMaxWidth, maxHeight / 1.5).translate(new Point2d(200.0, 0.0));
+
+        bigRectangle.add(small);
+
+        return bigRectangle;
+    }
+
+    public static BaseShape create_horizontal() {
+        BaseShape rectangle = new Rectangle(halfMaxWidth, maxHeight).rotate(Math.toRadians(90.0));
+        return rectangle;
+    }
 }
