@@ -70,7 +70,7 @@ class InterviewTest {
 
     @Test
     void testComplexityWithTime() {
-        assertTimeoutPreemptively(Duration.ofSeconds(100), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(30), () -> {
             int increaseRate = 100;
             int maxSize = 2000;
             ArrayList<Double> Xs = new ArrayList<>();

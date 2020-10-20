@@ -10,11 +10,14 @@ public final class Interview {
      * Is valid if you flip the number upside down.
      */
     public static boolean isValidFlipped(String listOfNumbers) {
+        /*if(listOfNumbers.contains("4") || listOfNumbers.contains("3") || listOfNumbers.contains("7")){
+            return false;
+        }*/
         if(listOfNumbers.length() < 2){
-            if(listOfNumbers.contains("6") || listOfNumbers.contains("9") || listOfNumbers.contains("4") || listOfNumbers.contains("3") || listOfNumbers.contains("7")){
+            if(listOfNumbers.equals("6") || listOfNumbers.equals("9")){
                 return false;
             }
-            else{
+            else if(listOfNumbers.equals("")){
                 return true;
             }
 
@@ -25,25 +28,25 @@ public final class Interview {
 
         for (int i = 0; i < array.length; i++) {
             integerArray[i] = Integer.parseInt(array[i]);
+            if(integerArray[i] == 4 || integerArray[i]==3 || integerArray[i] == 7){
+                return false;
+            }
         }
         HashMap<Integer, Integer> mapNumbers = new HashMap<Integer, Integer>();
         for ( Integer number : integerArray ) {
             //Integer value = mapNumbers.get(number);
             //if ( value == null ) {
             Integer value;
-                if(number == 6){
-                    value = 9;
-                }
-                else if (number == 9){
-                    value = 6;
-                }
-                else if( number == 3 || number == 4 || number == 7){
-                    return false;
-                }
-                else
-                {
-                  value = number;
-                }
+            if(number == 6){
+                value = 9;
+            }
+            else if (number == 9){
+                value = 6;
+            }
+            else
+            {
+              value = number;
+            }
 
            // }
 
