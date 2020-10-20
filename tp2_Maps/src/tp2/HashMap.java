@@ -121,7 +121,7 @@ public class HashMap<KeyType, DataType> implements Iterable<KeyType> {
 
         increaseCapacity();
 
-        map = (Node<KeyType, DataType>[]) new Node[capacity];
+        map = new Node[capacity];
 
         for (Node<KeyType, DataType> node : oldMap) {
             while (node != null) {
@@ -285,7 +285,7 @@ public class HashMap<KeyType, DataType> implements Iterable<KeyType> {
             if(node.next != null) {
                 node = node.next;
             } else {
-                while(map[++index] == null);
+                while(map[++index] == null){}
                 node = map[index];
             }
             return key;

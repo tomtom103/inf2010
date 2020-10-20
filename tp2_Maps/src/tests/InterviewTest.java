@@ -65,11 +65,12 @@ class InterviewTest {
         assertTrue(Interview.isValidFlippedWithPermutation("111558888"));
         assertTrue(Interview.isValidFlippedWithPermutation("6699111558888"));
         assertFalse(Interview.isValidFlippedWithPermutation("66991115588889"));
+        assertFalse(Interview.isValidFlippedWithPermutation("6669"));
     }
 
     @Test
     void testComplexityWithTime() {
-        assertTimeoutPreemptively(Duration.ofSeconds(30), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(100), () -> {
             int increaseRate = 100;
             int maxSize = 2000;
             ArrayList<Double> Xs = new ArrayList<>();
