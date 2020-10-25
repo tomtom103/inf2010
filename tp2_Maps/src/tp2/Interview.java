@@ -1,8 +1,6 @@
 package tp2;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 
 public final class Interview {
@@ -14,29 +12,15 @@ public final class Interview {
 
         int stringLength = listOfNumbers.length();
         if(stringLength < 2){
-            if(listOfNumbers.equals("6") || listOfNumbers.equals("9") || listOfNumbers.equals("3") || listOfNumbers.equals("4") || listOfNumbers.equals("7")){
-                return false;
-            }
-            else{
-                return true;
-            }
-
+            return !listOfNumbers.equals("6") && !listOfNumbers.equals("9") && !listOfNumbers.equals("3") && !listOfNumbers.equals("4") && !listOfNumbers.equals("7");
         }
-
-
-        HashMap<Character, Character> mapNumbers = new HashMap<Character, Character>();
-
-        //mapNumbers.put('1','1');
-        //mapNumbers.put('2','2');
-        //mapNumbers.put('5','5');
-        //mapNumbers.put('8','8');
+        HashMap<Character, Character> mapNumbers = new HashMap<>();
+        // 6 is 9 flipped and vice versa
         mapNumbers.put('6','9');
         mapNumbers.put('9','6');
 
-        int offSet = stringLength %2 == 0? 0: 1;
         for (int i = 0; i < stringLength/2; i++) {
             Character base = listOfNumbers.charAt(i);
-
             if(base.equals('3') || base.equals('4') || base.equals('7')){
                 return false;
             }
@@ -49,12 +33,7 @@ public final class Interview {
             else if(!base.equals(listOfNumbers.charAt(stringLength-i-1))){
                 return false;
             }
-
-
-
-
         }
-
         return true;
     }
 
@@ -63,7 +42,7 @@ public final class Interview {
      */
     public static boolean isValidFlippedWithPermutation(String listOfNumbers) {
 
-        HashMap<Character, Integer> mapNumbers = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> mapNumbers = new HashMap<>();
         int listLength = listOfNumbers.length();
 
         if((listOfNumbers.equals("6") || listOfNumbers.equals("9"))){
@@ -77,35 +56,27 @@ public final class Interview {
             Integer oldCount = mapNumbers.get(value);
             if ( oldCount == null ) {
                 oldCount = 0;
-
             }
-
             mapNumbers.put(value, oldCount + 1);
         }
         int cptOdd = 0;
-
         for(Character number : mapNumbers.keySet()){
             if(mapNumbers.get(number) % 2 != 0){
                 cptOdd++;
             }
-
         }
-        Integer cpt6 = mapNumbers.get("6");
+        Integer cpt6 = mapNumbers.get('6');
         cpt6 = cpt6 == null? 0: cpt6;
-        Integer cpt9 = mapNumbers.get("9");
+        Integer cpt9 = mapNumbers.get('9');
         cpt9 = cpt9 == null? 0: cpt9;
 
-        Integer diff = java.lang.Math.abs(cpt6-cpt9);
-        Integer sum = cpt6 + cpt9;
+        int diff = java.lang.Math.abs(cpt6-cpt9);
+        int sum = cpt6 + cpt9;
         if(listLength % 2 == 0){
-
             return cptOdd == 0 && diff == 0 && sum != 1;
         }
         else{
             return cptOdd < 2 && diff < 2;
         }
-
-
-
     }
 }
