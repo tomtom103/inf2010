@@ -19,30 +19,23 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      */
     public void add(ValueType value) {
         BinaryNode<ValueType> current = root;
-        //root.height = root.height == (null)? 0: root.height;
         BinaryNode<ValueType> parent = current;
         if(root == null) {
             root = new BinaryNode<>(value, null);
         } else {
             while(current != null && !value.equals(current.value)) {
                 if (value.compareTo(current.value) < 0) {
-
                     parent = current;
                     current = current.left;
-
                 } else {
                     parent = current;
                     current = current.right;
 
                 }
-                if(current != null && (parent.height - current.height) != 1){
-                    current.height = parent.height -1;
-                }
             }
             if(value.compareTo(parent.value) < 0) {
                 parent.left = new BinaryNode<ValueType>(value, parent);
                 //parent.left.height = parent.height + 1;
-
                 root.height += 1;
                 this.balance(parent.left);
             } else if (value.compareTo(parent.value) > 0) {
@@ -56,6 +49,30 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             }
         }
 
+        BinaryNode<ValueType> current = root;
+        BinaryNode<ValueType> parent = current;
+        if(root == null) {
+            root = new BinaryNode<>(value, null);
+        } else {
+            while(current != null && !value.equals(current.value)) {
+                if (value.compareTo(current.value) < 0) {
+                    parent = current;
+                    current = current.left;
+                } else {
+                    parent = current;
+                    current = current.right;
+                }
+            }
+            if(value.compareTo(parent.value) < 0) {
+                parent.left = new BinaryNode<ValueType>(value, parent);
+                parent.left.height = parent.height + 1;
+            } else if (value.compareTo(parent.value) > 0) {
+                parent.right = new BinaryNode<ValueType>(value, parent);
+                parent.right.height = parent.height + 1;
+            } else {
+                return;
+            }
+        }
     }
 
     /** TODO Worst case : O ( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
