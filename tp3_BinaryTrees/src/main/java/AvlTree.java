@@ -68,7 +68,26 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param value value to remove from the tree
      */
     public void remove(ValueType value){
+        if(value == null) {
+            return;
+        }
+        BinaryNode<ValueType> current = find(value);
+        if(current != null) {
+            // Case 1: Leaf node
+            if(current.left == null && current.right == null) {
+                current = null;
+            }
+            // Case 2: Node only has 1 child
+            else if(current.left == null) {
+                current.right = null;
+            } else if (current.right == null) {
+                current.left = null;
+            }
+            // Case 3: node both children
+            else {
 
+            }
+        }
     }
 
     /** TODO Worst case : O ( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
