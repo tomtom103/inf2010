@@ -21,26 +21,43 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         BinaryNode<ValueType> parent = current;
         if(root == null) {
             root = new BinaryNode<>(value, null);
+            root.height = 0;
         } else {
             while(current != null && !value.equals(current.value)) {
                 if (value.compareTo(current.value) < 0) {
                     parent = current;
+                    parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
                     current = current.left;
                 } else {
                     parent = current;
+                    parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
                     current = current.right;
                 }
             }
             if(value.compareTo(parent.value) < 0) {
                 parent.left = new BinaryNode<ValueType>(value, parent);
-                parent.left.height = parent.height + 1;
+                parent.left.height = 0;
+                this.balance(parent.left);
             } else if (value.compareTo(parent.value) > 0) {
                 parent.right = new BinaryNode<ValueType>(value, parent);
-                parent.right.height = parent.height + 1;
+                parent.right.height = 0;
+                this.balance(parent.right);
             } else {
                 return;
             }
         }
+    }
+
+    public BinaryNode<ValueType> find(ValueType value) {
+        BinaryNode<ValueType> current = root;
+        while(current != null && !value.equals(current.value)) {
+            if(value.compareTo(current.value) < 0) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        return current;
     }
 
     /** TODO Worst case : O ( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -61,14 +78,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return if value already exists in the tree
      */
     public boolean contains(ValueType value) {
-        BinaryNode<ValueType> current = root;
-        while(current != null && !value.equals(current.value)) {
-            if(value.compareTo(current.value) < 0) {
-                current = current.left;
-            } else {
-                current = current.right;
-            }
-        }
+        BinaryNode<ValueType> current = find(value);
         if(current == null) {
             return false;
         }
@@ -80,7 +90,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Max level contained in our root tree
      */
     public int getHeight() {
-        return -1;
+        return root.height;
+    }
+
+    private int height(BinaryNode<ValueType> node) {
+        return node == null ? -1 : node.height;
     }
 
     /** TODO Worst case : O( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -89,7 +103,14 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Node which has the minimal value contained in our root tree
      */
     public ValueType findMin() {
-        return null;
+        BinaryNode<ValueType> current = root;
+        if(current == null) {
+            return null;
+        }
+        while(current.left != null) {
+            current = current.left;
+        }
+        return current.value;
     }
 
 
