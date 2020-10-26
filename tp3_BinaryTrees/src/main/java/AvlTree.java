@@ -126,7 +126,24 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Values contained in the root tree in level order from top to bottom
      */
     public List<ValueType> levelOrder(){
-        return new LinkedList<>();
+        LinkedList<ValueType> liste = new LinkedList<>();
+        if (root == null || (root.left == null && root.right == null))
+            return liste;
+
+        LinkedList<BinaryNode<ValueType>> stack = new LinkedList<>();
+        BinaryNode<ValueType> current = root;
+        stack.add(current);
+        while(!stack.isEmpty()){
+            current = stack.poll();
+            liste.add(current.value);
+            if(current.left != null){
+                stack.offer(current.left);
+            }
+            if(current.right != null){
+                stack.offer(current.right);
+            }
+        }
+        return liste;
     }
 
     /** TODO Worst case : O( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
