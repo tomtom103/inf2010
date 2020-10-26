@@ -1,5 +1,3 @@
-import javax.security.auth.kerberos.KeyTab;
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +17,30 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param value value to add to the tree
      */
     public void add(ValueType value) {
-
+        BinaryNode<ValueType> current = root;
+        BinaryNode<ValueType> parent = current;
+        if(root == null) {
+            root = new BinaryNode<>(value, null);
+        } else {
+            while(current != null && !value.equals(current.value)) {
+                if (value.compareTo(current.value) < 0) {
+                    parent = current;
+                    current = current.left;
+                } else {
+                    parent = current;
+                    current = current.right;
+                }
+            }
+            if(value.compareTo(parent.value) < 0) {
+                parent.left = new BinaryNode<ValueType>(value, parent);
+                parent.left.height = parent.height + 1;
+            } else if (value.compareTo(parent.value) > 0) {
+                parent.right = new BinaryNode<ValueType>(value, parent);
+                parent.right.height = parent.height + 1;
+            } else {
+                return;
+            }
+        }
     }
 
     /** TODO Worst case : O ( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -40,7 +61,18 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return if value already exists in the tree
      */
     public boolean contains(ValueType value) {
-        return false;
+        BinaryNode<ValueType> current = root;
+        while(current != null && !value.equals(current.value)) {
+            if(value.compareTo(current.value) < 0) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        if(current == null) {
+            return false;
+        }
+        return true;
     }
 
     /** TODO Worst case : O( 1 )
