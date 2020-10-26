@@ -1,7 +1,6 @@
-import javax.security.auth.kerberos.KeyTab;
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class AvlTree<ValueType extends Comparable<? super ValueType> > {
 
@@ -19,6 +18,43 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param value value to add to the tree
      */
     public void add(ValueType value) {
+        BinaryNode<ValueType> current = root;
+        //root.height = root.height == (null)? 0: root.height;
+        BinaryNode<ValueType> parent = current;
+        if(root == null) {
+            root = new BinaryNode<>(value, null);
+        } else {
+            while(current != null && !value.equals(current.value)) {
+                if (value.compareTo(current.value) < 0) {
+
+                    parent = current;
+                    current = current.left;
+
+                } else {
+                    parent = current;
+                    current = current.right;
+
+                }
+                if(current != null && (parent.height - current.height) != 1){
+                    current.height = parent.height -1;
+                }
+            }
+            if(value.compareTo(parent.value) < 0) {
+                parent.left = new BinaryNode<ValueType>(value, parent);
+                //parent.left.height = parent.height + 1;
+
+                root.height += 1;
+                this.balance(parent.left);
+            } else if (value.compareTo(parent.value) > 0) {
+                parent.right = new BinaryNode<ValueType>(value, parent);
+                //parent.right.height = parent.height + 1;
+
+                root.height+=1;
+                this.balance(parent.right);
+            } else {
+                return;
+            }
+        }
 
     }
 
@@ -40,7 +76,18 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return if value already exists in the tree
      */
     public boolean contains(ValueType value) {
-        return false;
+        BinaryNode<ValueType> current = root;
+        while(current != null && !value.equals(current.value)) {
+            if(value.compareTo(current.value) < 0) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        if(current == null) {
+            return false;
+        }
+        return true;
     }
 
     /** TODO Worst case : O( 1 )
@@ -48,7 +95,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Max level contained in our root tree
      */
     public int getHeight() {
-        return -1;
+        return root.height;
+
     }
 
     /** TODO Worst case : O( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -57,7 +105,15 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Node which has the minimal value contained in our root tree
      */
     public ValueType findMin() {
-        return null;
+        BinaryNode<ValueType> current = root;
+        if(current == null){
+            return null;
+        }
+        BinaryNode<ValueType> parent = current;
+        while(parent != null && parent.left != null){
+            parent = parent.left;
+        }
+        return parent.value;
     }
 
 
@@ -73,8 +129,27 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Values contained in the root tree in level order from top to bottom
      */
     public List<ValueType> levelOrder(){
-        return new LinkedList<>();
+        LinkedList<ValueType> liste = new LinkedList<>();
+        if (root == null || (root.left == null && root.right == null))
+            return liste;
+
+        LinkedList<BinaryNode<ValueType>> stack = new LinkedList<>();
+        BinaryNode<ValueType> current = root;
+        stack.add(current);
+        while(!stack.isEmpty()){
+            current = stack.poll();
+            liste.add(current.value);
+            if(current.left != null){
+                stack.offer(current.left);
+            }
+            if(current.right != null){
+                stack.offer(current.right);
+            }
+        }
+        return liste;
     }
+
+
 
     /** TODO Worst case : O( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
      *
@@ -119,4 +194,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             this.parent = parent;
         }
     }
+
 }
+
