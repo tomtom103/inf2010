@@ -123,7 +123,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             return;
         }
         BinaryNode<ValueType> current = find(value);
-        if(current != null) {
+        if(current == null){
+            return;
+        }
+        /*if(current != null) {
             // Case 1: Leaf node
             if(current.left == null && current.right == null) {
                 current = null;
@@ -138,7 +141,63 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             else {
 
             }
+        }*/
+        BinaryNode<ValueType> tmpNode = null;
+        if(current.left == null || current.right == null){
+            //Un enfant
+            if(current.left == null & current.right == null){
+                if(current.parent != null && current.parent.value.compareTo(current.value) < 0){
+                    current.parent.right = null;
+                }
+                else{
+                    if(current.parent != null){
+                        current.parent.left = null;
+                    }
+
+                }
+                tmpNode = current.parent;
+                current = null;
+                if(tmpNode != null){
+                    balance(tmpNode);
+                }
+                else{
+                    root = null;
+                }
+
+            }else{
+                tmpNode = current.left == null? current.right: current.left;
+                tmpNode.parent = current.parent;
+                current = tmpNode;
+                tmpNode = null;
+                balance(current);
+            }
+
+            /*/Aucun enfant
+            if(tmpNode == null){
+                tmpNode= current;
+                current = null;
+            }
+            else{
+                current = tmpNode;
+            }*/
+
         }
+        else{
+
+            tmpNode = current.right;
+            while(tmpNode.left != null) {
+                tmpNode = tmpNode.left;
+            }
+            //tmpNode = tmpNode.parent;
+            BinaryNode<ValueType> tmp = tmpNode.parent;
+            current.value= tmpNode.value;
+            tmpNode.parent.left = null;
+            tmpNode =null;
+            balance(tmp);
+
+
+        }
+
     }
 
     /** TODO Worst case : O ( log n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -239,9 +298,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      */
     private void balance(BinaryNode<ValueType> node) {
         BinaryNode<ValueType> nodeParent;
-        //if(node.parent.parent != null){
-        //    nodeParent = node.parent.parent;
-        //}
+
         while(node != null){
             node.height = updateHauteur(node);
             if(height(node.left) >= 2 + height(node.right)){
@@ -264,37 +321,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             }
             node = node.parent;
         }
-        /*if(node.parent != null){
-            nodeParent = node.parent;
-        }
-        else{
-            nodeParent = node;
-        }
-        //nodeParent = node.parent;
-        int heightLeft = height(nodeParent.left);
-        int heightRight = height(nodeParent.right);
-        int balanceFactor =  heightLeft - heightRight;
-        if(balanceFactor > 1) {
-            if(nodeParent.left != null && nodeParent.left.value.compareTo(nodeParent.value) > 0){
-                //rotateLeft(nodeParent);
-                rotateRight(nodeParent);
-            }
-            else{
-                //rotateRight(nodeParent.right);
-                //rotateRight(nodeParent);
-                rotateLeft(nodeParent);
-            }
-        }
-        else if(balanceFactor < -1){
-            if(nodeParent.left != null && nodeParent.left.right != null && nodeParent.left.left != null && height(nodeParent.left.left) > height(nodeParent.left.right)){
-                rotateRight(nodeParent);
-            }
-            else{
-                rotateLeft(nodeParent);
-               // rotateLeft(nodeParent.left);
-                //rotateRight(nodeParent);
-            }
-        }*/
+
     }
 
     /** TODO Worst case : O ( 1 )
@@ -303,30 +330,47 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its left child
      */
     private void rotateLeft(BinaryNode<ValueType> node1){
-        BinaryNode<ValueType> nodeTmp = node1.right;
-        nodeTmp.parent = node1.parent;
+        /*BinaryNode<ValueType> nodeTmp = node1.right;
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        if(node1.parent != null){node1.parent.right = nodeTmp;}
         node1.parent = nodeTmp;
         BinaryNode<ValueType> nodeTmp2 = nodeTmp.left;
 
         nodeTmp.left = node1;
         node1.right = nodeTmp2;
 
-        //nodeTmp.parent = node1.parent;
-      //  nodeTmp.left = node1;
-       // node1.parent = nodeTmp;
-       // BinaryNode<ValueType> nodeTmp = node1.right;
-       // nodeTmp.parent = node1.parent;
-       // node1.parent = nodeTmp;
-       // node1.right = nodeTmp.left;
-
-       // nodeTmp.left = node1;
-
-
-
-        //node1.height = node1.parent.height -1;
-
         node1.height = Math.max(height(node1.left), height(node1.right)) + 1;
+        nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
+        if(nodeTmp.parent == null)
+            root = nodeTmp;
 
+         */
+        BinaryNode<ValueType> nodeTmp = node1.right;
+        BinaryNode<ValueType> nodeTmp2 = nodeTmp.left;
+        nodeTmp.left = node1;
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        node1.parent = nodeTmp;
+
+        if(nodeTmp.parent != null){
+            if(nodeTmp.value.compareTo(nodeTmp.parent.value)<0){
+                nodeTmp.parent.left = nodeTmp;
+            }else{
+                nodeTmp.parent.right = nodeTmp;
+            }
+        }
+        node1.right = nodeTmp2;
+        if(nodeTmp2 != null)
+            nodeTmp2.parent = node1;
+        /*
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        if(node1.parent != null){node1.parent.right = nodeTmp;}
+        node1.parent = nodeTmp;
+
+
+        nodeTmp.left = node1;
+        node1.right = nodeTmp2;
+        */
+        node1.height = Math.max(height(node1.left), height(node1.right)) + 1;
         nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
         if(nodeTmp.parent == null)
             root = nodeTmp;
@@ -338,15 +382,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1){
-        /*BinaryNode<ValueType> nodeTmp = node1.left;
-        //<ValueType> nodeTmpRight = node1.right;
-        node1.left = nodeTmp.right;
 
-        nodeTmp.right = node1;
-        node1.parent = nodeTmp;
-        node1.height = node1.parent.height -1;*/
-        BinaryNode<ValueType> nodeTmp = node1.left;
-        nodeTmp.parent = node1.parent;
+        /*BinaryNode<ValueType> nodeTmp = node1.left;
+
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        if(node1.parent != null){node1.parent.left = nodeTmp;}
         node1.parent = nodeTmp;
         BinaryNode<ValueType> nodeTmp2 = nodeTmp.right;
 
@@ -357,7 +397,36 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
         if(nodeTmp.parent == null)
             root = nodeTmp;
+        */
+        BinaryNode<ValueType> nodeTmp = node1.left;
+        BinaryNode<ValueType> nodeTmp2 = nodeTmp.right;
+        nodeTmp.right = node1;
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        node1.parent = nodeTmp;
 
+        if(nodeTmp.parent != null){
+            if(nodeTmp.value.compareTo(nodeTmp.parent.value)<0){
+                nodeTmp.parent.left = nodeTmp;
+            }else{
+                nodeTmp.parent.right = nodeTmp;
+            }
+        }
+        node1.left = nodeTmp2;
+        if(nodeTmp2 != null)
+            nodeTmp2.parent = node1;
+        /*
+        nodeTmp.parent = node1.parent!= null? node1.parent: null;
+        if(node1.parent != null){node1.parent.right = nodeTmp;}
+        node1.parent = nodeTmp;
+
+
+        nodeTmp.left = node1;
+        node1.right = nodeTmp2;
+        */
+        node1.height = Math.max(height(node1.left), height(node1.right)) + 1;
+        nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
+        if(nodeTmp.parent == null)
+            root = nodeTmp;
     }
 
     static private class BinaryNode<ValueType> {
