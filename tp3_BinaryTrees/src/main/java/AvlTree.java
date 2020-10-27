@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class AvlTree<ValueType extends Comparable<? super ValueType> > {
 
@@ -24,23 +25,46 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             root.height = 0;
         } else {
             while(current != null && !value.equals(current.value)) {
+                ///////////////////////////////
+                //int cptLeft = root.height;///
+                //int cptRight = root.height;//
+                ///////////////////////////////
+
                 if (value.compareTo(current.value) < 0) {
                     parent = current;
                     parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+                    //parent.height = cptLeft--;
+                    /////////////////////////////
                     current = current.left;
+                    //current.height = Math.max(height(current.left), height(current.right)) + 1;
                 } else {
                     parent = current;
                     parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+                    //parent.height = cptRight--;
                     current = current.right;
+                    //current.height = Math.max(height(current.left), height(current.right)) + 1;
                 }
             }
             if(value.compareTo(parent.value) < 0) {
                 parent.left = new BinaryNode<ValueType>(value, parent);
                 parent.left.height = 0;
+                parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+                if(parent.parent != null)
+                    parent.parent.height++;
+                //oli test
+                //root.height++;
+                //////////////
                 this.balance(parent.left);
+
             } else if (value.compareTo(parent.value) > 0) {
                 parent.right = new BinaryNode<ValueType>(value, parent);
                 parent.right.height = 0;
+                parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+                if(parent.parent != null)
+                    parent.parent.height++;
+                //oli test
+                //root.height++;
+                ///////////
                 this.balance(parent.right);
             } else {
                 return;
@@ -109,7 +133,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Max level contained in our root tree
      */
     public int getHeight() {
-        return root.height;
+        return root != null? root.height: -1;
     }
 
     private int height(BinaryNode<ValueType> node) {
@@ -137,7 +161,23 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * Returns all values contained in the root tree in ascending order
      * @return Values contained in the root tree in ascending order
      */
-    public List<ValueType> infixOrder() { return new LinkedList<>(); }
+    public List<ValueType> infixOrder() {
+        LinkedList<ValueType> liste = new LinkedList<>();
+        Stack<BinaryNode<ValueType>> queue = new Stack<>();
+        BinaryNode<ValueType> current = root;
+        while(!queue.empty() || current != null){
+            if(current != null){
+                queue.push(current);
+                current = current.left;
+            }
+            else{
+                current = queue.pop();
+                liste.add(current.value);
+                current = current.right;
+            }
+        }
+        return liste;
+    }
 
     /** TODO Worst case : O( n ) HAS TO BE ITERATIVE, NOT RECURSIVE
      *
@@ -171,7 +211,40 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node Node to balance all the way to root
      */
     private void balance(BinaryNode<ValueType> node) {
-
+        BinaryNode<ValueType> nodeParent;
+        //if(node.parent.parent != null){
+        //    nodeParent = node.parent.parent;
+        //}
+        if(node.parent != null){
+            nodeParent = node.parent;
+        }
+        else{
+            nodeParent = node;
+        }
+        int heightLeft = height(nodeParent.left);
+        int heightright = height(nodeParent.right);
+        int balanceFactor =  height(nodeParent.left) - height(nodeParent.right);
+        if(balanceFactor > 1) {
+            if(nodeParent.left != null && nodeParent.left.value.compareTo(nodeParent.value) > 0){
+                //rotateLeft(nodeParent);
+                rotateRight(nodeParent);
+            }
+            else{
+                //rotateRight(nodeParent.right);
+                //rotateRight(nodeParent);
+                rotateLeft(nodeParent);
+            }
+        }
+        else if(balanceFactor < -1){
+            if(nodeParent.left != null && nodeParent.left.right != null && nodeParent.left.left != null && height(nodeParent.left.left) > height(nodeParent.left.right)){
+                rotateRight(nodeParent);
+            }
+            else{
+                rotateLeft(nodeParent);
+               // rotateLeft(nodeParent.left);
+                //rotateRight(nodeParent);
+            }
+        }
     }
 
     /** TODO Worst case : O ( 1 )
@@ -180,7 +253,33 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its left child
      */
     private void rotateLeft(BinaryNode<ValueType> node1){
+        BinaryNode<ValueType> nodeTmp = node1.right;
+        nodeTmp.parent = node1.parent;
+        node1.parent = nodeTmp;
+        BinaryNode<ValueType> nodeTmp2 = nodeTmp.left;
 
+        nodeTmp.left = node1;
+        node1.right = nodeTmp2;
+
+        //nodeTmp.parent = node1.parent;
+      //  nodeTmp.left = node1;
+       // node1.parent = nodeTmp;
+       // BinaryNode<ValueType> nodeTmp = node1.right;
+       // nodeTmp.parent = node1.parent;
+       // node1.parent = nodeTmp;
+       // node1.right = nodeTmp.left;
+
+       // nodeTmp.left = node1;
+
+
+
+        //node1.height = node1.parent.height -1;
+
+        node1.height = Math.max(height(node1.left), height(node1.right)) + 1;
+
+        nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
+        if(nodeTmp.parent == null)
+            root = nodeTmp;
     }
 
     /** TODO Worst case : O ( 1 )
@@ -189,6 +288,25 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1){
+        /*BinaryNode<ValueType> nodeTmp = node1.left;
+        //<ValueType> nodeTmpRight = node1.right;
+        node1.left = nodeTmp.right;
+
+        nodeTmp.right = node1;
+        node1.parent = nodeTmp;
+        node1.height = node1.parent.height -1;*/
+        BinaryNode<ValueType> nodeTmp = node1.left;
+        nodeTmp.parent = node1.parent;
+        node1.parent = nodeTmp;
+        BinaryNode<ValueType> nodeTmp2 = nodeTmp.right;
+
+        nodeTmp.right = node1;
+        node1.left = nodeTmp2;
+
+        node1.height = Math.max(height(node1.left), height(node1.right)) + 1;
+        nodeTmp.height = Math.max(height(nodeTmp.left), height(nodeTmp.right)) + 1;
+        if(nodeTmp.parent == null)
+            root = nodeTmp;
 
     }
 
