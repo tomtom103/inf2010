@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="AvlTreeTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-10-27T01:06:37" hostname="LAPTOP-HHBDG7T1" time="0.01">
+<testsuite name="AvlTreeTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-10-27T14:57:50" hostname="LAPTOP-HHBDG7T1" time="0.012">
   <properties/>
-  <testcase name="rotateLeftPerfectCase()" classname="AvlTreeTest" time="0.01">
-    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;2&gt; but was: &lt;1&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;2&gt; but was: &lt;1&gt;
+  <testcase name="completeBalancingTest()" classname="AvlTreeTest" time="0.012">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;3&gt; but was: &lt;2&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;3&gt; but was: &lt;2&gt;
 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
 	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:152)
 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:147)
 	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:510)
-	at AvlTreeTest.rotateLeftPerfectCase(AvlTreeTest.java:162)
+	at AvlTreeTest.completeBalancingTest(AvlTreeTest.java:265)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
