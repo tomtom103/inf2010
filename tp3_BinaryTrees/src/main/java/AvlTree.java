@@ -25,20 +25,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
             root.height = 0;
         } else {
             while(!value.equals(current.value)) {
-                ///////////////////////////////
-                //int cptLeft = root.height;///
-                //int cptRight = root.height;//
-                ///////////////////////////////
-                //parent = current.parent != null? current.parent:current;
-                //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-
                 current.height = Math.max(height(current.left), height(current.right)) + 1;
                 if (value.compareTo(current.value) < 0) {
-                    //parent = current;
-                    //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-                    //parent.height = cptLeft--;
-                    /////////////////////////////
-
                     if(current.left == null){
                         current.left = new BinaryNode<>(value, current);
                         current.left.height = 0;
@@ -46,14 +34,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
                         balance(current);
                         break;
                     }
-                    //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-                   // current.height = Math.max(height(current.left), height(current.right)) + 1;
                     current = current.left;
-                    //current.height = Math.max(height(current.left), height(current.right)) + 1;
                 } else {
-                    //parent = current;
-                    //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-                    //parent.height = cptRight--;
                     if(current.right == null){
                         current.right = new BinaryNode<>(value, current);
                         current.right.height = 0;
@@ -62,36 +44,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
                         break;
 
                     }
-                    //current.height = Math.max(height(current.left), height(current.right)) + 1;
                     current = current.right;
-                    //current.height = Math.max(height(current.left), height(current.right)) + 1;
                 }
             }
-            /*
-            if(value.compareTo(parent.value) < 0) {
-                parent.left = new BinaryNode<ValueType>(value, parent);
-                parent.left.height = 0;
-                //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-               // if(parent.parent != null)
-                //    parent.parent.height++;
-                //oli test
-                //root.height++;
-                //////////////
-                this.balance(parent.left);
-
-            } else if (value.compareTo(parent.value) > 0) {
-                parent.right = new BinaryNode<ValueType>(value, parent);
-                parent.right.height = 0;
-                //parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
-                //if(parent.parent != null)
-                 //   parent.parent.height++;
-                //oli test
-                //root.height++;
-                ///////////
-                this.balance(parent.right);
-            } else {
-                return;
-            }*/
         }
     }
 
@@ -126,23 +81,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         if(current == null){
             return;
         }
-        /*if(current != null) {
-            // Case 1: Leaf node
-            if(current.left == null && current.right == null) {
-                current = null;
-            }
-            // Case 2: Node only has 1 child
-            else if(current.left == null) {
-                current.right = null;
-            } else if (current.right == null) {
-                current.left = null;
-            }
-            // Case 3: node both children
-            else {
-
-            }
-        }*/
-        BinaryNode<ValueType> tmpNode = null;
+        BinaryNode<ValueType> tmpNode;
         if(current.left == null || current.right == null){
             //Un enfant
             if(current.left == null & current.right == null){
@@ -153,7 +92,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
                     if(current.parent != null){
                         current.parent.left = null;
                     }
-
                 }
                 tmpNode = current.parent;
                 current = null;
@@ -163,39 +101,24 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
                 else{
                     root = null;
                 }
-
-            }else{
-                tmpNode = current.left == null? current.right: current.left;
+            }else {
+                tmpNode = current.left == null ? current.right : current.left;
                 tmpNode.parent = current.parent;
                 current = tmpNode;
                 tmpNode = null;
                 balance(current);
             }
-
-            /*/Aucun enfant
-            if(tmpNode == null){
-                tmpNode= current;
-                current = null;
-            }
-            else{
-                current = tmpNode;
-            }*/
-
         }
-        else{
-
+        else {
             tmpNode = current.right;
             while(tmpNode.left != null) {
                 tmpNode = tmpNode.left;
             }
-            //tmpNode = tmpNode.parent;
             BinaryNode<ValueType> tmp = tmpNode.parent;
             current.value= tmpNode.value;
             tmpNode.parent.left = null;
             tmpNode =null;
             balance(tmp);
-
-
         }
 
     }
@@ -208,10 +131,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      */
     public boolean contains(ValueType value) {
         BinaryNode<ValueType> current = find(value);
-        if(current == null) {
-            return false;
-        }
-        return true;
+        return current != null;
     }
 
     /** TODO Worst case : O( 1 )
@@ -219,7 +139,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @return Max level contained in our root tree
      */
     public int getHeight() {
-        return root != null? root.height: -1;
+        return root != null ? root.height: -1;
     }
 
     private int height(BinaryNode<ValueType> node) {
