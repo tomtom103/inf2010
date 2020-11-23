@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="AvlTreeTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2020-11-06T00:08:56" hostname="DESKTOP-Q77NJCU" time="18.736">
+  <properties/>
+  <testcase name="timeComplexity()" classname="AvlTreeTest" time="18.719"/>
+  <testcase name="findMin()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="infixOrder()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="completeBalancingTest()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="contains()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="removePerfectCase()" classname="AvlTreeTest" time="0.0"/>
+  <testcase name="doubleRotateOnLeftPerfectCase()" classname="AvlTreeTest" time="0.0"/>
+  <testcase name="levelOrder()" classname="AvlTreeTest" time="0.0"/>
+  <testcase name="getHeight()" classname="AvlTreeTest" time="0.0"/>
+  <testcase name="removeReassignsLeftAndRight()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="removeBalances()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="cannotContainDuplicates()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="rotateRightPerfectCase()" classname="AvlTreeTest" time="0.001"/>
+  <testcase name="doubleRotateOnRightPerfectCase()" classname="AvlTreeTest" time="0.0"/>
+  <testcase name="rotateLeftPerfectCase()" classname="AvlTreeTest" time="0.001"/>
+  <system-out><![CDATA[R2 : 0.9994473931306451
+Time spent JAVA : 8.237 seconds
+Time spent : 10.451 seconds
+python src/plot.py -c AvlTree -x 167.0,249.0,361.0,482.0,623.0,738.0,868.0,984.0,1122.0,1246.0,1397.0 -y 162.0,294.0,440.0,623.0,773.0,936.0,1114.0,1262.0,1434.0,1620.0,1793.0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

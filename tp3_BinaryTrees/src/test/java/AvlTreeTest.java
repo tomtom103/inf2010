@@ -1,12 +1,17 @@
 import edu.princeton.cs.algs4.LinearRegression;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class AvlTreeTest {
     static private AvlTree<Integer> tree;
@@ -19,11 +24,13 @@ class AvlTreeTest {
 
     /**
      *  Produces the following tree
-     *               3
+     *               7
      *             /   \
-     *           1      5
+     *           5      8
      *          / \    / \
-     *         0   2  4   6
+     *         2     6   9
+     *        /
+     *
      */
     private static void addBalancedTree(){
         // Root
