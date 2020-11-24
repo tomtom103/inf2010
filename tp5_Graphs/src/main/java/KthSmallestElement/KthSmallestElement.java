@@ -50,6 +50,7 @@ public class KthSmallestElement {
             if (row < matrix[col].length - 1)
                 heap.offer(new Node<>(matrix[col][row + 1], col, row + 1));
         }
+
         return null;
     }
 

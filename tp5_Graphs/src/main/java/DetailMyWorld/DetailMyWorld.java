@@ -31,102 +31,60 @@ public class DetailMyWorld {
         for (int i= 0; i < world.size(); i++){
             for (int j=0; j < world.get(0).size(); j++){
                 if(!worldVisitedMap.get(i).get(j) && world.get(i).get(j) != 0){
-                    if(isBreadthFirstSearch){
-                        listeSet.add(breadthSearch(i,j,world,worldVisitedMap));
-                    }
-                    else{
-                        listeSet.add(depthSearch(i,j,world,worldVisitedMap));
-                    }
-
+                    listeSet.add(breadthOrDepthSearch(i,j,world,worldVisitedMap, isBreadthFirstSearch));
                 }
             }
         }
-
-
         return listeSet;
     }
 
-    private static Set<Integer> depthSearch(int x, int y, ArrayList<ArrayList<Integer>> world, ArrayList<ArrayList<Boolean>> worldVisitedMap){
-        Set<Integer> set = new HashSet<>();
-        Stack<Point> queue = new Stack<>();
-        queue.add(new Point(x,y));
-        while(!queue.isEmpty()){
-            Point point = new Point(queue.pop());
-            if(!set.contains(world.get(point.x).get(point.y))){
-                set.add(world.get(point.x).get(point.y));
-            }
-
-            //améliorer en vérifiant si déjà visiter avant d'ajouter au queue
-            if(!worldVisitedMap.get(point.x).get(point.y)){
-                if(point.x > 0){
-                    if(world.get(point.x-1).get(point.y) != 0 && !queue.contains(new Point(point.x-1, point.y))){
-                        queue.add(new Point(point.x-1, point.y));
-                    }
-                }
-                if(point.x < world.size()-1){
-                    if(world.get(point.x+1).get(point.y) != 0 && !queue.contains(new Point(point.x+1, point.y))){
-                        queue.add(new Point(point.x+1, point.y));
-                    }
-                }
-                if(point.y > 0){
-                    if(world.get(point.x).get(point.y-1) != 0 && !queue.contains(new Point(point.x, point.y-1))){
-                        queue.add(new Point(point.x, point.y-1));
-                    }
-                }
-                if(point.y < world.get(0).size()-1){
-                    if(world.get(point.x).get(point.y+1) != 0 && !queue.contains(new Point(point.x, point.y+1))){
-                        queue.add(new Point(point.x, point.y+1));
-                    }
-                }
-
-                worldVisitedMap.get(point.x).set(point.y,true);
-
-            }
-
-        }
-        return set;
-    }
-    private static Set<Integer> breadthSearch(int x, int y, ArrayList<ArrayList<Integer>> world, ArrayList<ArrayList<Boolean>> worldVisitedMap){
+    private static Set<Integer> breadthOrDepthSearch(int x, int y, ArrayList<ArrayList<Integer>> world, ArrayList<ArrayList<Boolean>> worldVisitedMap, boolean isBreadthSearch){
         Set<Integer> set = new HashSet<>();
         Queue<Point> queue = new ArrayDeque<>();
-        queue.add(new Point(x,y));
-        while(!queue.isEmpty()){
-            Point point = new Point(queue.poll());
-            if(!set.contains(world.get(point.x).get(point.y))){
-                set.add(world.get(point.x).get(point.y));
-            }
+        Stack<Point> stack = new Stack<>();
 
-            //améliorer en vérifiant si déjà visiter avant d'ajouter au queue
-            if(!worldVisitedMap.get(point.x).get(point.y)){
-                if(point.x > 0){
-                    if(world.get(point.x-1).get(point.y) != 0 && !queue.contains(new Point(point.x-1, point.y))){
-                        queue.add(new Point(point.x-1, point.y));
-                    }
-                }
-                if(point.x < world.size()-1){
-                    if(world.get(point.x+1).get(point.y) != 0 && !queue.contains(new Point(point.x+1, point.y))){
-                        queue.add(new Point(point.x+1, point.y));
-                    }
-                }
-                if(point.y > 0){
-                    if(world.get(point.x).get(point.y-1) != 0 && !queue.contains(new Point(point.x, point.y-1))){
-                        queue.add(new Point(point.x, point.y-1));
-                    }
-                }
-                if(point.y < world.get(0).size()-1){
-                    if(world.get(point.x).get(point.y+1) != 0 && !queue.contains(new Point(point.x, point.y+1))){
-                        queue.add(new Point(point.x, point.y+1));
-                    }
-                }
-
+        if(isBreadthSearch){
+            queue.add(new Point(x,y));
+        }
+        else{
+            stack.add(new Point(x,y));
+        }
+        while(!queue.isEmpty() || !stack.isEmpty()){
+            Point point = isBreadthSearch? new Point(Objects.requireNonNull(queue.poll())):  new Point(stack.pop());
+            set.add(world.get(point.x).get(point.y));
+            if(!isVisited(point, worldVisitedMap)){
+                addIfValid(point, 0, point.x, -1,0,queue,stack,isBreadthSearch,world);
+                addIfValid(point, point.x, world.size()-1, 1,0,queue,stack,isBreadthSearch,world);
+                addIfValid(point,0,point.y,0,-1,queue,stack,isBreadthSearch,world);
+                addIfValid(point, point.y, world.get(0).size()-1, 0,1,queue,stack,isBreadthSearch,world);
                 worldVisitedMap.get(point.x).set(point.y,true);
-
             }
-
         }
         return set;
     }
 
+    private static boolean isVisited(Point point, ArrayList<ArrayList<Boolean>> worldVisitedMap){
+        return worldVisitedMap.get(point.x).get(point.y);
+    }
+
+    private static void addIfValid(Point point, int firstVar, int lastVar, int xOffSet, int yOffSet,
+                                       Queue<Point> queue, Stack<Point> stack, boolean isBreadthSearch,
+                                       ArrayList<ArrayList<Integer>> world){
+
+        boolean collectionContains = isBreadthSearch? !queue.contains(new Point(point.x+xOffSet, point.y+yOffSet)):
+                !stack.contains(new Point(point.x+xOffSet, point.y+yOffSet));
+
+        if(firstVar < lastVar){
+            if(world.get(point.x+xOffSet).get(point.y+yOffSet) != 0 && collectionContains){
+                if(isBreadthSearch){
+                    queue.add(new Point(point.x+xOffSet, point.y+yOffSet));
+                }
+                else{
+                    stack.add(new Point(point.x+xOffSet, point.y+yOffSet));
+                }
+            }
+        }
+    }
     public static void printWorld(ArrayList<ArrayList<Integer>> world) {
         for (ArrayList<Integer> row : world) {
             System.out.println(row.stream().map(String::valueOf).collect(Collectors.joining(" ")));

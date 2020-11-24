@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="DetailMyWorldTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-11-24T00:20:49" hostname="LAPTOP-HHBDG7T1" time="1.535">
+  <properties/>
+  <testcase name="input00()" classname="DetailMyWorldTest" time="0.019"/>
+  <testcase name="input01()" classname="DetailMyWorldTest" time="0.002"/>
+  <testcase name="input02()" classname="DetailMyWorldTest" time="0.021"/>
+  <testcase name="input03()" classname="DetailMyWorldTest" time="0.056"/>
+  <testcase name="input04()" classname="DetailMyWorldTest" time="0.031"/>
+  <testcase name="input05()" classname="DetailMyWorldTest" time="0.128"/>
+  <testcase name="input06()" classname="DetailMyWorldTest" time="0.034"/>
+  <testcase name="input07()" classname="DetailMyWorldTest" time="0.907"/>
+  <testcase name="input08()" classname="DetailMyWorldTest" time="0.087"/>
+  <testcase name="input09()" classname="DetailMyWorldTest" time="0.246"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
