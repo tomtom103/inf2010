@@ -108,6 +108,7 @@ public class DetailMyWorld {
                 worldVisitedMap[point.x][point.y] = true;
             }
         }
+        return set;
     }
 
     /**
